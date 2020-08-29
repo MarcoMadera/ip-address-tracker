@@ -10,8 +10,10 @@
   "author": "Marco Madera <marcomaderaa@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "leaflet": "^1.6.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-leaflet": "^2.7.0"
   },
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
@@ -22,6 +24,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.5.3",
     "eslint": "^7.6.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
