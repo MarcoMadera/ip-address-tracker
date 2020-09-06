@@ -1,73 +1,79 @@
+:root {
+  --borderRadius: 15px;
+}
 .Header {
   height: 300px;
   background: url("/images/pattern-bg.png");
+  background-size: cover;
+  background-position-x: center;
 }
 
 .section {
   margin: 0 24px 26px 24px;
 }
 
-.Header section h2 {
+.Header__title {
   color: white;
   padding: 26px 0 29px 0;
-}
-.Header form {
-  display: inline-flex;
-  width: 100%;
-}
-.Header input {
-  height: 58px;
-  border: none;
-  width: calc(100% - 8px);
-}
-.Header input::placeholder {
-  color: var(--Very-Dark-Gray);
+  font-size: 1.59em;
+  font-weight: 500;
 }
 
 .Header button {
   width: 58px;
   height: 58px;
   background: black;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
   border: none;
   cursor: pointer;
 }
 
-.SearchFilter {
-  display: flex;
+.Header__form {
+  display: inline-flex;
   position: relative;
   align-items: center;
   background-color: white;
   width: 100%;
+  max-width: 557px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
+  border-radius: var(--borderRadius);
 }
 
-.SearchFilter:hover,
-.SearchFilter:focus {
+.Header__form:hover,
+.Header__form:focus {
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.07);
 }
-.darkMode .SearchFilter:hover,
-.darkMode .SearchFilter:focus {
+.darkMode .Header__form:hover,
+.darkMode .Header__form:focus {
   box-shadow: 0px 2px 5px 0px rgba(90, 90, 90, 0.07);
 }
 
-.SearchFilter__label {
+.Header__form__label {
   position: absolute;
   height: 100%;
   width: 58px;
   background: black;
   left: calc(100% - 58px);
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
-.SearchFilter__input {
-  height: 54px;
+.Header__form__input {
+  height: 58px;
   width: 100%;
+
   border: none;
   padding-left: 24px;
   color: var(--Very-Dark-Gray);
   letter-spacing: 0;
-  font-weight: 400;
-  border-radius: 10px;
+  font-weight: 500;
+  border-radius: var(--borderRadius);
+  font-size: 1.1em;
+}
+@media screen and (min-width: 888px) {
+  .Header {
+    height: 280px;
+  }
+  .Header__title {
+    font-size: 1.9em;
+  }
 }
