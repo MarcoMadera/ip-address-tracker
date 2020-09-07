@@ -2,14 +2,17 @@ const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    app: "./src/index.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].js",
   },
-  devtool: "inline-source-map",
   resolve: {
     extensions: [".js", ".jsx"],
   },
@@ -51,6 +54,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: "challenge/images", to: "images" }],
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.parsed),
     }),
   ],
 };

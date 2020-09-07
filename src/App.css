@@ -19,3 +19,9 @@ body {
   --Very-Dark-Gray: hsl(0, 0%, 17%);
   --Dark-Gray: hsl(0, 0%, 59%);
 }
+
+@media screen and (min-width: 888px) {
+  .leaflet-container {
+    height: calc(100vh - 280px);
+  }
+}

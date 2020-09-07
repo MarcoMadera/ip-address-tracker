@@ -27,19 +27,15 @@ const Header = ({ data, searchIp }) => {
       event.preventDefault();
       setSearch({
         ...search,
-        error:
-          !ipValidate.test(search.value) && !domainValidate.test(search.value),
+        error: !ipValidate.test(search.value),
         submitted: true,
       });
     },
-    [domainValidate, ipValidate, search]
+    [ipValidate, search]
   );
 
   const ipValidate = RegExp(
     /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$$/
-  );
-  const domainValidate = RegExp(
-    /^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$/
   );
 
   let outline = { outline: "unset" };
@@ -56,7 +52,7 @@ const Header = ({ data, searchIp }) => {
             type="text"
             onChange={handleChange}
             className="Header__form__input"
-            placeholder={"Search for any IP address or domain"}
+            placeholder={"Search for any IP address"}
             style={outline}
             onClick={() => setShowDialog(true)}
             onFocus={() => setShowDialog(true)}
@@ -66,7 +62,7 @@ const Header = ({ data, searchIp }) => {
           </button>
         </form>
         {search.error && search.submitted && (
-          <p>Please insert a valid ip or domain name</p>
+          <p>Please enter a valid IP address.</p>
         )}
       </section>
       {data && (

@@ -31,19 +31,19 @@ const Dialog = ({ data, showDialog, setShowDialog }) => {
       <div className="Dialog__container">
         <div>
           <span className="Dialog__info">ip address</span>
-          <p className="Dialog__infoData">{data.query}</p>
+          <p className="Dialog__infoData">{data.ip}</p>
         </div>
         <div>
           <span className="Dialog__info">location</span>
-          <p className="Dialog__infoData">{`${data.city}, ${data.region} ${data.zip}`}</p>
+          <p className="Dialog__infoData">{`${data.city}, ${data.region_code} ${data.postal}`}</p>
         </div>
         <div>
           <span className="Dialog__info">timezone</span>
-          <p className="Dialog__infoData">{data.timezone}</p>
+          <p className="Dialog__infoData">{data.time_zone.name}</p>
         </div>
         <div>
           <span className="Dialog__info">isp</span>
-          <p className="Dialog__infoData">{data.isp}</p>
+          <p className="Dialog__infoData">{data.asn && data.asn.name}</p>
         </div>
       </div>
     </dialog>
