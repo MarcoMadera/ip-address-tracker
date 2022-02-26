@@ -10,6 +10,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { AppProps, Data } from "types/data";
 import { NextApiRequestQuery } from "next/dist/server/api-utils";
+import { makeAPIRequest } from "utils/makeAPIRequest";
 
 const App = ({
   ip,
@@ -39,7 +40,7 @@ const App = ({
     [ip, lat, lon, country, region, city]
   );
   const [data, setData] = useState<Data>(defaultData);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const Map = dynamic(() => import("../components/Map"), {
     loading: () => <p>A map is loading</p>,
     ssr: false,
@@ -49,46 +50,27 @@ const App = ({
     if (ip || lat || lon) {
       return;
     }
-    fetch(`/api/iplocation?ip=${ip}`)
-      .then((res) => {
-        if (res.status !== 200) {
-          setError(true);
-          return;
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setData(res);
-      })
-      .catch(() => setError(true));
+    const requestPayload = { ipAddress: ip };
+    makeAPIRequest("/api/iplocation", requestPayload, setData, setError);
   }, [ip, lat, lon]);
 
-  const searchIp = useCallback(
-    (ip) => {
-      setError(false);
-      fetch("/api/iplocation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ipAddress: ip }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          res.status === "fail" ? setData(defaultData) : setData(res);
-        })
-        .catch(() => setError(true));
-    },
-    [defaultData]
-  );
+  const searchIp = useCallback((ip) => {
+    setError("");
+    const requestPayload = { ipAddress: ip };
+    makeAPIRequest("/api/iplocation", requestPayload, setData, setError);
+  }, []);
 
   return (
     <>
       <Head>
         <title>Frontend Mentor | IP Address Tracker</title>
       </Head>
-      <Header data={data} searchIp={searchIp} />
-      {error && <h1>Something went wrong</h1>}
+      <Header
+        data={data}
+        searchIp={searchIp}
+        error={error}
+        setError={setError}
+      />
       {data.ip ? (
         <Map
           lat={data.lat ? Number(data.lat) : 0}

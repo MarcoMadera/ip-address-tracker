@@ -15,18 +15,17 @@ export default async function ipLocation(
     res.status(405).end();
     return;
   }
-  const endpoint = isValidDomainAddress
-    ? `
-  https://geo.ipify.org/api/v1?apiKey=${
-    process.env.DOMAIN_DATA_KEY
-  }&domain=${getDomainOnly(ip)}`
-    : `https://api.ipdata.co/${ip}?api-key=${process.env.IP_DATA_KEY}`;
+  const endpoint = isValidIpAddress
+    ? `https://api.ipdata.co/${ip}?api-key=${process.env.IP_DATA_KEY}`
+    : `
+https://geo.ipify.org/api/v1?apiKey=${
+        process.env.DOMAIN_DATA_KEY
+      }&domain=${getDomainOnly(ip)}`;
 
   try {
     const response = await fetch(endpoint);
     if (!response.ok) {
-      res.status(response.status).end();
-      return;
+      throw new Error("Something went wrong with that request");
     }
     const data = await response.json();
     const mappedData = {

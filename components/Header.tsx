@@ -8,44 +8,53 @@ import { isValidDomain } from "utils/isValidDomain";
 const Header = ({
   data,
   searchIp,
+  error,
+  setError,
 }: {
   data: Data;
   searchIp: (ip: string) => void;
+  error: string;
+  setError: (err: string) => void;
 }): ReactElement => {
   const [search, setSearch] = useState({
     value: "",
-    error: false,
     submitted: false,
   });
   const showDialog = !!data.ip;
 
   useEffect(() => {
-    if (search.submitted === true && search.error === false) {
+    if (search.submitted === true && !error) {
       searchIp(search.value);
     }
-  }, [search.error, search.submitted, search.value, searchIp]);
+  }, [error, search.submitted, search.value, searchIp]);
 
-  const handleChange = useCallback((event) => {
-    const res = event.target.value;
-    setSearch({ value: res, error: false, submitted: false });
-  }, []);
+  const handleChange = useCallback(
+    (event) => {
+      const res = event.target.value;
+      setSearch({ value: res, submitted: false });
+      setError("");
+    },
+    [setError]
+  );
 
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
       const isValidIpAddress =
         isValidIp(search.value) || isValidDomain(search.value);
+      if (!isValidIpAddress) {
+        setError("Please enter a valid IP address or domain.");
+      }
       setSearch({
         ...search,
-        error: !isValidIpAddress,
         submitted: true,
       });
     },
-    [search]
+    [search, setError]
   );
 
   let outline = { outline: "unset", border: "unset" };
-  if (search.error && search.submitted) {
+  if (error && search.submitted) {
     outline = { outline: "unset", border: "1px solid red" };
   }
 
@@ -65,9 +74,7 @@ const Header = ({
             <ArrowIcon width={16} height={16} />
           </button>
         </form>
-        {search.error && search.submitted && (
-          <p>Please enter a valid IP address or domain.</p>
-        )}
+        {error && search.submitted && <p>{error}</p>}
       </section>
       {showDialog && <Dialog data={data} />}
       <style jsx>{`
