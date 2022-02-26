@@ -50,7 +50,13 @@ const App = ({
       return;
     }
     fetch(`/api/iplocation?ip=${ip}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status !== 200) {
+          setError(true);
+          return;
+        }
+        return res.json();
+      })
       .then((res) => {
         setData(res);
       })

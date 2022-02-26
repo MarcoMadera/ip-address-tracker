@@ -3,6 +3,7 @@ import ArrowIcon from "./icons/ArrowIcon";
 import Dialog from "./Dialog";
 import { isValidIp } from "utils/isValidIp";
 import { Data } from "types/data";
+import { isValidDomain } from "utils/isValidDomain";
 
 const Header = ({
   data,
@@ -32,9 +33,11 @@ const Header = ({
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
+      const isValidIpAddress =
+        isValidIp(search.value) || isValidDomain(search.value);
       setSearch({
         ...search,
-        error: !isValidIp(search.value),
+        error: !isValidIpAddress,
         submitted: true,
       });
     },
@@ -55,7 +58,7 @@ const Header = ({
             type="text"
             onChange={handleChange}
             className="Header__form__input"
-            placeholder={"Search for any IP address"}
+            placeholder={"Search for any IP address or domain"}
             style={outline}
           />
           <button className="Header__form__label" onClick={handleSubmit}>
@@ -63,7 +66,7 @@ const Header = ({
           </button>
         </form>
         {search.error && search.submitted && (
-          <p>Please enter a valid IP address.</p>
+          <p>Please enter a valid IP address or domain.</p>
         )}
       </section>
       {showDialog && <Dialog data={data} />}
