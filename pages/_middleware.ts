@@ -14,7 +14,7 @@ export function middleware(request: NextRequest): NextResponse {
   url.searchParams.set("region", region);
   url.searchParams.set("lat", lat);
   url.searchParams.set("lon", lon);
-  url.searchParams.set("ip", ip || "127.0.0.1");
+  url.searchParams.set("ip", ip || "");
 
   return NextResponse.rewrite(url);
 }

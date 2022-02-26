@@ -7,6 +7,11 @@ export interface AppProps {
   city: string;
 }
 
+export enum Type {
+  ONLOAD = "onload",
+  SEARCH = "search",
+}
+
 export type Data = AppProps & {
   isp: string;
   time_zone: string;

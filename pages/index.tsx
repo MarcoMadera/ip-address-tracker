@@ -8,7 +8,7 @@ import React, {
 import Header from "../components/Header";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { AppProps, Data } from "types/data";
+import { AppProps, Data, Type } from "types/data";
 import { NextApiRequestQuery } from "next/dist/server/api-utils";
 import { makeAPIRequest } from "utils/makeAPIRequest";
 
@@ -47,16 +47,13 @@ const App = ({
   });
 
   useEffect(() => {
-    if (ip || lat || lon) {
-      return;
-    }
-    const requestPayload = { ipAddress: ip };
-    makeAPIRequest("/api/iplocation", requestPayload, setData, setError);
-  }, [ip, lat, lon]);
+    const requestPayload = { ipAddress: ip, type: Type.ONLOAD };
+    makeAPIRequest("/api/iplocation", requestPayload, setData, console.error);
+  }, [ip]);
 
   const searchIp = useCallback((ip) => {
     setError("");
-    const requestPayload = { ipAddress: ip };
+    const requestPayload = { ipAddress: ip, type: Type.SEARCH };
     makeAPIRequest("/api/iplocation", requestPayload, setData, setError);
   }, []);
 
