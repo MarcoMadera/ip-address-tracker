@@ -12,7 +12,9 @@ const Dialog = ({ data }: { data: Data }): ReactElement => {
         </div>
         <div>
           <span className="Dialog__info">location</span>
-          <p className="Dialog__infoData">{`${data.city}, ${data.region_code} ${data.postal}`}</p>
+          <p className="Dialog__infoData">{`${data.city}, ${
+            data.region_code || data.country
+          } ${data.postal}`}</p>
         </div>
         <div>
           <span className="Dialog__info">timezone</span>

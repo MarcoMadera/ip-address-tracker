@@ -22,6 +22,7 @@ const App = ({
   country = decodeURIComponent(country);
   city = decodeURIComponent(city);
   region = decodeURIComponent(region);
+  console.log({ ip, lat, lon, country, region, city });
 
   const defaultData: Data = useMemo(
     () => ({
@@ -31,10 +32,10 @@ const App = ({
       country,
       region,
       city,
-      isp: "--",
-      time_zone: "--",
-      region_code: "--",
-      postal: "--",
+      isp: "",
+      time_zone: "",
+      region_code: "",
+      postal: "",
     }),
     [ip, lat, lon, country, region, city]
   );
