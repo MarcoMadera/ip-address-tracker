@@ -7,7 +7,7 @@ export function middleware(request: NextRequest): NextResponse {
   const city = geo?.city || "San Francisco";
   const region = geo?.region || "CA";
   const lat = geo?.latitude || "37.3388";
-  const lon = geo?.latitude || "-121.8916";
+  const lon = geo?.longitude || "-121.8916";
 
   url.searchParams.set("country", country);
   url.searchParams.set("city", city);
