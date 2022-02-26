@@ -5,10 +5,9 @@ export default async function playlists(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const url = new URL(`https://blablabla.com/${req.url}` || "");
-  const ipParam = url.searchParams.get("ip");
-  const ip = isValidIp((ipParam as string) || "") ? ipParam : "";
-  if (!(req.method === "GET")) {
+  const ipAddress = req.body.ipAddress;
+  const ip = isValidIp((ipAddress as string) || "") ? ipAddress : "";
+  if (!(req.method === "POST")) {
     res.status(405).end();
     return;
   }

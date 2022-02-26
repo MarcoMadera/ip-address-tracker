@@ -60,7 +60,13 @@ const App = ({
   const searchIp = useCallback(
     (ip) => {
       setError(false);
-      fetch(`/api/iplocation?ip=${ip}`)
+      fetch("/api/iplocation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ipAddress: ip }),
+      })
         .then((res) => res.json())
         .then((res) => {
           res.status === "fail" ? setData(defaultData) : setData(res);
