@@ -1,10 +1,10 @@
 export interface AppProps {
-  ip: string | null;
-  lat: string | null;
-  lon: string | null;
-  country: string | null;
-  region: string | null;
-  city: string | null;
+  ip: string;
+  lat: string;
+  lon: string;
+  country: string;
+  region: string;
+  city: string;
 }
 
 export type Data = AppProps & {

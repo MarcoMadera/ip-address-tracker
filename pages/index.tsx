@@ -8,8 +8,8 @@ import React, {
 import Header from "../components/Header";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { NextApiRequest } from "next";
 import { AppProps, Data } from "types/data";
+import { NextApiRequestQuery } from "next/dist/server/api-utils";
 
 const App = ({
   ip,
@@ -19,6 +19,10 @@ const App = ({
   region,
   city,
 }: AppProps): ReactElement => {
+  country = decodeURIComponent(country);
+  city = decodeURIComponent(city);
+  region = decodeURIComponent(region);
+
   const defaultData: Data = useMemo(
     () => ({
       ip,
@@ -83,25 +87,12 @@ const App = ({
   );
 };
 
-App.getInitialProps = async ({
-  req,
+export const getServerSideProps = ({
+  query,
 }: {
-  req: NextApiRequest;
-}): Promise<AppProps> => {
-  const cookies = req ? req?.headers?.cookie : undefined;
-  const resiplocationCookie = cookies
-    ?.split("; ")
-    ?.find((c) => c.startsWith("resiplocation"))
-    ?.split("=")[1]
-    ?.split("%5B%3B");
-
-  const ip = resiplocationCookie ? resiplocationCookie[0] : null;
-  const lat = resiplocationCookie ? resiplocationCookie[1] : null;
-  const lon = resiplocationCookie ? resiplocationCookie[2] : null;
-  const country = resiplocationCookie ? resiplocationCookie[3] : null;
-  const region = resiplocationCookie ? resiplocationCookie[4] : null;
-  const city = resiplocationCookie ? resiplocationCookie[5] : null;
-  return { ip, lat, lon, country, region, city };
-};
+  query: NextApiRequestQuery;
+}): { props: NextApiRequestQuery } => ({
+  props: query,
+});
 
 export default App;

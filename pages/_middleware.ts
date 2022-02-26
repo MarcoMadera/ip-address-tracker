@@ -2,11 +2,19 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest): NextResponse {
-  if (request.cookies.resiplocation || !request.ip || !request.geo?.latitude) {
-    return NextResponse.next();
-  }
-  return NextResponse.next().cookie(
-    "resiplocation",
-    `${request.ip}[;${request.geo?.latitude}[;${request.geo?.longitude}[;${request.geo?.country}[;${request.geo?.region}[;${request.geo?.city}`
-  );
+  const { nextUrl: url, geo, ip } = request;
+  const country = geo?.country || "US";
+  const city = geo?.city || "San Francisco";
+  const region = geo?.region || "CA";
+  const lat = geo?.latitude || "37.3388";
+  const lon = geo?.latitude || "-121.8916";
+
+  url.searchParams.set("country", country);
+  url.searchParams.set("city", city);
+  url.searchParams.set("region", region);
+  url.searchParams.set("lat", lat);
+  url.searchParams.set("lon", lon);
+  url.searchParams.set("ip", ip || "127.0.0.1");
+
+  return NextResponse.rewrite(url);
 }
